@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Settings extends AppCompatActivity {
 
@@ -42,6 +43,8 @@ public class Settings extends AppCompatActivity {
         String userName = preferences.getString(KEY_NAME, "");
         String userPassword = preferences.getString(KEY_PASSWORD, "");
 
+        // clearSharedPreferences();
+
         if(!userName.isEmpty() || !userPassword.isEmpty()){
             startActivity(new Intent(Settings.this, LoginActivity.class));
         } else {
@@ -57,12 +60,12 @@ public class Settings extends AppCompatActivity {
                     } else {
                         if (!name.isEmpty() && !password.isEmpty()) {
                             Date currentTime = Calendar.getInstance().getTime();
-                            String fTime = new SimpleDateFormat().format(currentTime);
+                            String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(currentTime);
 
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(KEY_NAME, name);
                             editor.putString(KEY_PASSWORD, password);
-                            editor.putString(KEY_CDATETIME, fTime);
+                            editor.putString(KEY_CDATETIME, currentDateTime);
                             editor.commit();
 
                             startActivity(new Intent(Settings.this, LoginActivity.class));
@@ -73,5 +76,10 @@ public class Settings extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void clearSharedPreferences () {
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        preferences.edit().clear().commit();
     }
 }
