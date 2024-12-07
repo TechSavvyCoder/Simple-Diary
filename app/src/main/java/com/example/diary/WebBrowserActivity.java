@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class WebBrowserActivity extends AppCompatActivity {
 
     Activity activity ;
     private ProgressDialog progDailog;
+    String URL = "";
 
     @SuppressLint("NewApi")
     @Override
@@ -30,13 +32,7 @@ public class WebBrowserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_browser);
 
-        Button btnNext = (Button) findViewById(R.id.btnNext);
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WebBrowserActivity.this, UpdateSettings.class));
-            }
-        });
+        URL = "https://www.youtube.com";
 
         activity = this;
 
@@ -62,7 +58,28 @@ public class WebBrowserActivity extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl("https://www.youtube.com");
+        webView.loadUrl(URL);
 
+        TextView txtURL = (TextView) findViewById(R.id.txtURL);
+        txtURL.setText(URL);
+
+        Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                URL = txtURL.getText().toString();
+                progDailog = ProgressDialog.show(activity, "Loading","Please wait...", true);
+                progDailog.setCancelable(false);
+                webView.loadUrl(URL);
+            }
+        });
+
+        Button btnNext = (Button) findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WebBrowserActivity.this, UpdateSettings.class));
+            }
+        });
     }
 }
