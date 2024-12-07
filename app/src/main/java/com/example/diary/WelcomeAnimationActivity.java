@@ -60,6 +60,7 @@ public class WelcomeAnimationActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(new Intent(WelcomeAnimationActivity.this, DiaryInputActivity.class));
+                finish();
             }
         };
 
